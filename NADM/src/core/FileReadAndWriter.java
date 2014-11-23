@@ -12,6 +12,11 @@ public class FileReadAndWriter {
 	private int start=0;
 	private int length=100;
 	private boolean allRead=false;
+	/**
+	 * @param path
+	 * @param bl 为TRUE表示读数据，FALSE表示写数据
+	 * @param append 为TRUE表示从后添加
+	 */
 	public FileReadAndWriter(String path,boolean bl,boolean append){
 		if(bl)
 			try {
@@ -29,6 +34,10 @@ public class FileReadAndWriter {
 			}
 		}
 	}
+	/** 
+	 * @param path
+	 * @param b
+	 */
 	public FileReadAndWriter(String path, boolean b) {
 		// TODO Auto-generated constructor stub
 		try {

@@ -94,7 +94,7 @@ public class LoadCSVData1 extends LoadData {
 				}
 				Instance instance=new Instance(attriStrings[0]);
 				instance.setContinuousAttributes(cA);
-				instance.setLabel(attriStrings[attriStrings.length-1]);			
+				instance.setLabel(attriStrings[attriStrings.length-1].trim());			
 				instances.AddInstance(instance);
 			}
 			return instances;

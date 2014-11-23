@@ -31,7 +31,7 @@ public class Save2CSV1 extends SaveData {
 			for(int j=0;j<instance.getContinuousAttributes().length;j++){
 				string.append(instance.getContinuousAttributes()[j]+",");
 			}
-			string.append(instance.getLabel());
+			string.append(instance.getLabel().trim());
 			fileReadAndWriter.WriteLine(string.toString());
 		}
 		

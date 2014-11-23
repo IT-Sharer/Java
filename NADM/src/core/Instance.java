@@ -86,4 +86,15 @@ public class Instance {
 	public void setAttrNames(String [] attrNames) {
 		this.attrNames = attrNames;
 	}
+	/**验证连续属性是否相等
+	 * @param instance
+	 * @return
+	 */
+	public boolean equal2(Instance instance){
+		double [] tmp=instance.getContinuousAttributes();
+		for(int i=0;i<tmp.length;i++){
+			if(tmp[i]-ContinuousAttributes[i]>0.0000001)return false;
+		}
+		return true;
+	}
 }

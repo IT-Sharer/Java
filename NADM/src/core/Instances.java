@@ -105,6 +105,9 @@ public class Instances {
 			return null;
 		}
 	}
+	public Instance getCenter(){
+		return CalCenter();
+	}
 	public ArrayList<Instance> getInstances() {
 		return instances;
 	}
@@ -173,6 +176,11 @@ public class Instances {
 		}
 		return loc;
 	}
+	/**计算样本中，到instance的最大距离
+	 * @param instance
+	 * @param distanceMethod
+	 * @return
+	 */
 	public double getMaxDis(Instance instance,DistanceMethod distanceMethod){
 		double dis=0.0;
 		for(int i=0;i<getCount();i++){

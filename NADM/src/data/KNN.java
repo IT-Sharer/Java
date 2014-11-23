@@ -109,8 +109,7 @@ public class KNN {
 				String result=classify(testInstances.getInstance(i));
 				if(result.equals(testInstances.getInstance(i).getLabel()))count++;
 				else if(result.contains("unnormal"))wubao++;
-				else if(result.contains("normal"))loubao++;
-				
+				else if(result.contains("normal"))loubao++;				
 			}
 			System.out.println("分类的正确率是："+count*100.0/testInstances.getCount()+"%,分类正确总数："+count+";漏报 个数："+loubao+"; 误报个数："+wubao);
 		}

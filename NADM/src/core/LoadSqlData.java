@@ -9,9 +9,9 @@ import data.KDDCUP99Process;
 public class LoadSqlData extends LoadData {
 	String tablenameString="";
 	String conditionString="";
-	/* (non-Javadoc)
+	/* (non-Javadoc) 加载了离散属性值，不适用
 	 * @see core.LoadData#loadInstances(java.lang.String)
-	 * @param 实例名称
+	 * @param 实例名称 
 	 */
 	@Override
 	public Instances loadInstances(String string){
@@ -47,7 +47,7 @@ public class LoadSqlData extends LoadData {
 				instance.setAttrNames(attrNameStrings);
 				instance.setContinuousAttributes(cA);
 				instance.setDisperseAttributes(dA);
-				instance.setLabel(resultSet.getString(dA.length+cA.length+2));
+				instance.setLabel(resultSet.getString(dA.length+cA.length+2).trim());
 				instances.AddInstance(instance);
 			}
 			return instances;
@@ -103,6 +103,10 @@ public class LoadSqlData extends LoadData {
 			return null;
 		}
 	}
+	/**根据查询语句获取数据，名词属性转了数值属性。
+	 * @param sql
+	 * @return
+	 */
 	public Instances loadInstances3(String sql){
 		Instances instances=new Instances(" ");
 		ResultSet resultSet=KDDCUP99Process.sqlHelper.executeSql(sql);
@@ -120,7 +124,7 @@ public class LoadSqlData extends LoadData {
 //				}
 //				instance.setAttrNames(attrNameStrings);
 				instance.setContinuousAttributes(cA);
-				instance.setLabel(resultSet.getString(cA.length+2));
+				instance.setLabel(resultSet.getString(cA.length+2).trim());
 				instances.AddInstance(instance);
 			}
 			return instances;
