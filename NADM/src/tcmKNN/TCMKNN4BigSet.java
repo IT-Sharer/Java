@@ -1,21 +1,30 @@
 package tcmKNN;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.TreeSet;
+import java.util.Map.Entry;
 
 import knn.DistanceMethod;
 import knn.DistanceMethod1;
 import psoKmeans.Clusters;
 import core.Instance;
 import core.Instances;
+import debug.DebugInfo;
 
 public class TCMKNN4BigSet {
 	protected DistanceMethod distanceMethod=new DistanceMethod1();
 	protected Clusters clusters;//聚簇集合
 	//保存各类别对应的奇异值序列
 	public HashMap<String,TreeSet<Double>> strangeness=new HashMap<>();
-	
+	String dirString;//聚簇保存路径
 	int k;
 	String normalString="normal              ";//保存和加载的时候一定要trim一下
 	String unNormalString="unnormal            ";
@@ -63,14 +72,74 @@ public class TCMKNN4BigSet {
 	/**折半查找元素的排位
 	 * @return
 	 */
-	public int halfSearch(double d){
-		//???
-		return 0;
+	public int halfSearch(String label,double d){
+		TreeSet<Double> tmp=strangeness.get(label);
+		int loc=tmp.headSet(d).size();
+		return tmp.size()-loc;
 	}
-	public void SaveStrageness(){
+	/**根据奇异值序列计算概率值，有两种方法，采用论文方法
+	 * @param label
+	 * @param d
+	 * @return
+	 */
+	public double calP(String label,double d){
+		int c=halfSearch(label,d );
+		return c*1.0/strangeness.get(label).size();	
+		//方法2，计算在一定区间内的个数，查询分布的密度求概率？？？？
 		
 	}
-	public void LoadStrageness(){
+	
+	/**dir 要/结尾
+	 * @param dir
+	 */
+	public void SaveStrageness(String dir){
+		int i=0;
+		for(Entry<String, TreeSet<Double>> entry:strangeness.entrySet()){
+			try {
+				FileWriter fileWriter=new FileWriter(dir+"_strangeness_"+i+".txt");
+				fileWriter.write(entry.getKey()+"/r/n");
+				Iterator<Double> iterator=entry.getValue().iterator();
+				while(iterator.hasNext()){
+					fileWriter.write(iterator.next()+"");
+					if(iterator.hasNext())fileWriter.write(",");
+				}
+				fileWriter.write("/r/n");
+				fileWriter.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	public void LoadStrageness(String dir){
+		File dirPath=new File(dir);
+		if(!dirPath.isDirectory()){
+			DebugInfo.printMsg("dir 不是一个路径");
+			return;
+		}
+		File[] files=dirPath.listFiles();
+		for(int i=0;i<files.length;i++){
+			if(files[i].getAbsolutePath().contains("_strangeness_")){
+				//load strangeness first line is the label name,second line is the strangeness values
+				try {
+					BufferedReader bufferedReader=new BufferedReader(new FileReader(files[i]));
+					String labelname=bufferedReader.readLine();
+					String[]values=bufferedReader.readLine().split(",");
+//					if (strangeness.containsKey(labelname)) {
+//						strangeness.get(labelname).clear();
+//					}else{
+						TreeSet<Double> tmp=new TreeSet<Double>();
+						for(int i1=0;i1<values.length;i1++)tmp.add(Double.parseDouble(values[i1]));
+						strangeness.put(labelname, tmp);
+//					}
+						bufferedReader.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		}
 		
 	}
 	class ClassifyResult{
@@ -100,16 +169,37 @@ public class TCMKNN4BigSet {
 		for(int i=0;i<labelStrings.length;i++){
 			instance2.setLabel(labelStrings[i]);
 			double strange=CalStrangeness(instance2);
-			int c=halfSearch(strange);
-			P[i]=c*1.0/strangeness.get(labelStrings[i].trim()).size();			
+			P[i]=calP(labelStrings[i], strange);					
 		}
-		//返回结果和置信度。
-		return null;
+		//返回结果和置信度。???
+		ClassifyResult result=new ClassifyResult();
+		if(P.length<2){ 
+			result.setPos(P[0]);
+			result.setResult(labelStrings[0]);
+		}else {
+			double max=0,sec=0;
+			int loc=0,loc2=0;
+			for(int i=0;i<P.length;i++){
+				if(P[i]>sec){
+					sec=P[i];
+					loc2=i;
+				}
+				if(sec>max){
+					loc=loc2;
+					double tmp=sec;
+					sec=max;
+					max=tmp;
+				}
+			}
+			result.setPos(max-sec);
+			result.setResult(labelStrings[loc]);			
+		}
+		return result;
 	
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }
