@@ -239,9 +239,6 @@ public class TCMKNN4BigSet {
 		// TODO Auto-generated method stub
 		System.out.println("现在时间："+new Date().toLocaleString());
 		String pathString="E:/dataProcess/newAlgorithm/1413349489521/";
-		TCMKNN4BigSet tcmknn4BigSet=new TCMKNN4BigSet(pathString);
-		tcmknn4BigSet.test();
-		DebugInfo.printMsg("现在时间："+new Date().toLocaleString());
 	}
 
 }

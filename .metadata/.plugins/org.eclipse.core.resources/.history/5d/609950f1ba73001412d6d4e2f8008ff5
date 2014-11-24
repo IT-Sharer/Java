@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeSet;
@@ -28,8 +27,8 @@ public class TCMKNN4BigSet {
 	public HashMap<String,TreeSet<Double>> strangeness=new HashMap<>();
 	String dirString;//聚簇保存路径
 	int k;
-	String normalString="normal";//保存和加载的时候一定要trim一下
-	String unNormalString="unnormal";
+	String normalString="normal              ";//保存和加载的时候一定要trim一下
+	String unNormalString="unnormal            ";
 	LoadSqlData loadSqlData=new LoadSqlData();
 	public TCMKNN4BigSet(String dirString) {
 		// TODO Auto-generated constructor stub
@@ -212,36 +211,15 @@ public class TCMKNN4BigSet {
 	
 	}
 	public void test(){
-			
 		System.out.println("加载测试数据集：");
 		String testviewString="KDDCup99_0_test";
 		Instances testInstances=loadSqlData.loadInstances3("select * from "+testviewString);
 		System.out.println("加载完毕，进行分类：");
 		k=340;
-		loadClusters();	
-		clusters.deleteClusters(k);
-		CalAllStrangeness();
-		SaveStrageness(dirString);
-		int count=0;
-		int wubao=0;
-		int loubao=0;System.out.println("现在时间："+new Date().toLocaleString());	
-		System.out.println("K的值："+k);
-		for (int i = 0; i < testInstances.getCount(); i++) {
-			String result=classify(testInstances.getInstance(i)).getResult();
-			if(result.equals(testInstances.getInstance(i).getLabel()))count++;
-			else if(result.contains("unnormal"))wubao++;
-			else if(result.contains("normal"))loubao++;			
-		}
-		System.out.println("分类的正确率是："+count*100.0/testInstances.getCount()+"%,分类正确总数："+count+";漏报 个数："+loubao+"; 误报个数："+wubao);
-		
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println("现在时间："+new Date().toLocaleString());
-		String pathString="E:/dataProcess/newAlgorithm/1413349489521/";
-		TCMKNN4BigSet tcmknn4BigSet=new TCMKNN4BigSet(pathString);
-		tcmknn4BigSet.test();
-		DebugInfo.printMsg("现在时间："+new Date().toLocaleString());
+		
 	}
 
 }

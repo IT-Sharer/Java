@@ -89,9 +89,6 @@ public class Clusters {
 			double tmp=instances.getMaxDis(instance, distanceMethod);
 			maxDist.set(i, tmp);
 		}
-		calCenterdis();
-	}
-	private void calCenterdis() {
 		//计算聚集间距离
 		centersdist=new double[cArrayList.size()][cArrayList.size()];
 		for(int i=0;i<cCenters.getCount();i++)
@@ -99,17 +96,6 @@ public class Clusters {
 				centersdist[i][j]=cCenters.getInstance(i).Distance(
 						distanceMethod, cCenters.getInstance(j));
 			}
-	}
-	public void deleteClusters(int k){
-		for(int i=0;i<cCenters.getCount();i++){
-			if(cArrayList.get(i).getCount()<k){
-				cCenters.RemoveInstance(i);
-				cArrayList.remove(i);
-				i--;
-			}
-		}
-		calCenterdis();
-		DebugInfo.printMsg("delete clusters which size is not > k");
 	}
 	/**从文件夹加载聚集
 	 * @param dir

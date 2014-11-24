@@ -7,7 +7,6 @@
 <fullyQualifiedTypeName name="java.lang.Integer"/>
 <fullyQualifiedTypeName name="core.Instance"/>
 <fullyQualifiedTypeName name="core.Instances"/>
-<fullyQualifiedTypeName name="debug.DebugInfo"/>
 <fullyQualifiedTypeName name="psoKmeans.PSOInstances"/>
 <fullyQualifiedTypeName name="java.lang.String"/>
 <fullyQualifiedTypeName name="java.io.BufferedReader"/>
@@ -18,4 +17,7 @@
 <fullyQualifiedTypeName name="tcmKNN.TCMKNN4BigSet.ClassifyResult"/>
 <fullyQualifiedTypeName name="java.util.Iterator"/>
 <fullyQualifiedTypeName name="java.lang.Double"/>
+<fullyQualifiedTypeName name="psoKmeans.Clusters"/>
+<fullyQualifiedTypeName name="tcmKNN.TCMKNN4BigSet"/>
+<fullyQualifiedTypeName name="debug.DebugInfo"/>
 </qualifiedTypeNameHistroy>
